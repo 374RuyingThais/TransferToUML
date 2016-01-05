@@ -4,14 +4,14 @@ public class BombayCat extends AbstractCat{
 
 	private String callingName = "no name";
 	
-	public BombayCat() {
+	public BombayCat(String n) {
 		this.family = "cat";
 		this.typeName = "bombay cat";
 		this.color = "black";
+		this.setCallingName(n);
 	}
 
-	@Override
-	public void setCallingName(String n) {
+	private void setCallingName(String n) {
 		this.callingName = n;
 	}
 
@@ -26,6 +26,5 @@ public class BombayCat extends AbstractCat{
 		String str = this.callingName + " is a " + this.color + " " + this.typeName + ".";
 		return str;
 	}
-
 
 }

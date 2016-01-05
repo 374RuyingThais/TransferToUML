@@ -9,5 +9,9 @@ public abstract class AbstractCat implements Animal{
 	public AbstractCat() {
 		this.family = "cat";
 	}
+	
+	protected void callThisCat() {
+		System.out.println("meow~~");
+	}
 
 }

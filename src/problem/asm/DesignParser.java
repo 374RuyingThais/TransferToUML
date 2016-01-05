@@ -7,6 +7,11 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 public class DesignParser {
+	
+	public static final String[] CLASSES= {
+			"test.animal.animal"
+		};
+	
 	/**
 	 * Reads in a list of Java Classes and reverse engineers their design.
 	 * 
@@ -15,7 +20,8 @@ public class DesignParser {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException{
-		for(String className: args){
+		
+		for(String className: CLASSES){
 			// ASM's ClassReader does the heavy lifting of parsing the compiled Java class
 			ClassReader reader=new ClassReader(className);
 			
@@ -29,7 +35,9 @@ public class DesignParser {
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor);
 
 			// TODO: add more DECORATORS here in later milestones to accomplish specific tasks
-			
+			// specific tasks
+			// Tell the Reader to use our (heavily decorated) ClassVisitor to
+			// visit the class
 			
 			
 			// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
