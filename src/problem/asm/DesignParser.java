@@ -9,7 +9,7 @@ import org.objectweb.asm.Opcodes;
 public class DesignParser {
 	
 	public static final String[] CLASSES= {
-			"test.animal.animal"
+			"problem.asm.Animal"
 		};
 	
 	/**
@@ -23,7 +23,7 @@ public class DesignParser {
 		
 		for(String className: CLASSES){
 			// ASM's ClassReader does the heavy lifting of parsing the compiled Java class
-			ClassReader reader=new ClassReader(className);
+			ClassReader reader = new ClassReader(className);
 			
 			// make class declaration visitor to get superclass and interfaces
 			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5);
@@ -41,7 +41,7 @@ public class DesignParser {
 			
 			
 			// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
-			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			reader.accept(methodVisitor, ClassReader.SKIP_CODE);
 		}
 	}
 }
