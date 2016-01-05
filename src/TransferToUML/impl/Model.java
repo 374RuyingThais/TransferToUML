@@ -22,6 +22,10 @@ public class Model implements ITraverser, IModel{
 		this.components = components;
 	}
 
+	public Model() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void accept(IVisitor v) {
 		v.preVisit(this);
@@ -54,7 +58,6 @@ public class Model implements ITraverser, IModel{
 	
 	@Override
 	public String toString(){
-		//TODO
 		return "Declaration: " + this.declaration + "; Field: " + this.field + "; Method: " + this.method + "Components: " + this.components + ";";
 	}
 

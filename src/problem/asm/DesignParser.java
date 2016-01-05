@@ -6,11 +6,16 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import TransferToUML.api.IModel;
+import TransferToUML.impl.Model;
+
 public class DesignParser {
 	
 	public static final String[] CLASSES= {
 			"problem.asm.Animal"
 		};
+	
+	private IModel model = new Model();
 	
 	/**
 	 * Reads in a list of Java Classes and reverse engineers their design.
@@ -19,9 +24,9 @@ public class DesignParser {
 	 * 		For example: java DesignParser java.lang.String edu.rosehulman.csse374.ClassFieldVisitor java.lang.Math
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException{
+	public void main(String[] args) throws IOException{
 		
-		for(String className: CLASSES){
+		for(String className: args){
 			// ASM's ClassReader does the heavy lifting of parsing the compiled Java class
 			ClassReader reader = new ClassReader(className);
 			
