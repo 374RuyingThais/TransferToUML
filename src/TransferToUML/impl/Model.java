@@ -2,10 +2,13 @@ package TransferToUML.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import TransferToUML.api.IClass;
 import TransferToUML.api.IModel;
 import TransferToUML.api.IRelation;
+import TransferToUML.app.TransferToUMLApp;
 import TransferToUML.visitor.ITraverser;
 import TransferToUML.visitor.IVisitor;
 
@@ -13,60 +16,40 @@ import TransferToUML.visitor.IVisitor;
 public class Model implements IModel{
 	
 	public Collection<IClass> classes;
-	public Collection<IRelation> relations;
+	public Map<String, IRelation> relations;
+	public Collection<String> classNames;
 
-<<<<<<< HEAD
 	
 	public Model(){
 		this.classes = new ArrayList<IClass>();
-		this.relations = new ArrayList<IRelation>();
+		this.relations = new HashMap<String,IRelation>();
+		setClassNames();
 	}
 
 	public Model(Collection<IClass> classes) {
 		this.classes = classes;
-		this.relations = new ArrayList<IRelation>();
+		this.relations = new HashMap<String,IRelation>();
+		setClassNames();
 	}
 	
-	public Model(Collection<IClass> classes, ArrayList<IRelation> relations) {
+	public Model(Collection<IClass> classes, HashMap<String,IRelation> relations) {
 		this.classes = classes;
 		this.relations = relations;
+		setClassNames();
+	}
+	
+	public void setClassNames(){
+		for (String s : TransferToUMLApp.classes) {
+			String[] split = s.split("\\.");
+			s = split[split.length-1];
+			this.classNames.add(s);
+		}
 	}
 
 	public void accept(IVisitor v) {
 		v.preVisit(this);
 		for(IClass c: this.classes) {
 			c.accept(v);
-=======
-	
-	public Model(){
-		this.classes = new ArrayList<IClass>();
-		this.relations = new ArrayList<IRelation>();
-	}
-
-	public Model(Collection<IClass> classes) {
-		this.classes = classes;
-		this.relations = new ArrayList<IRelation>();
-	}
-	
-	public Model(Collection<IClass> classes, ArrayList<IRelation> relations) {
-		this.classes = classes;
-		this.relations = relations;
-	}
-
-<<<<<<< HEAD
-=======
-	public Model() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
->>>>>>> origin/master
-	public void accept(IVisitor v) {
-		v.preVisit(this);
-		for(IClass p: this.classes) {
-			ITraverser t = (ITraverser)p;
-			t.accept(v);
->>>>>>> master
 		}
 		v.visit(this);
 		v.postVisit(this);
@@ -84,17 +67,43 @@ public class Model implements IModel{
 
 	@Override
 	public void addRelation(IRelation r) {
-		this.relations.add(r);
+		
+		if (!this.relations.containsKey(r.getSubClass())) {
+			this.relations.put(r.getSubClass(), r);
+		} else {
+			
+
+			IRelation modify = this.relations.get(r.getSubClass());
+			Collection<String> modify_uses = modify.getUses();
+			Collection<String> modify_ass = modify.getAssociations();
+			
+			if(!r.getUses().isEmpty()) {
+				for(String u : r.getUses()) 
+					if (!modify_uses.contains(u) && !modify_ass.contains(u) && this.classNames.contains(u)) {
+						modify_uses.add(u);
+					}				
+			}
+			
+			if(!r.getAssociations().isEmpty()) {
+				for(String u : r.getAssociations()) 
+					if (!modify_ass.contains(u) && this.classNames.contains(u)) {
+						if (modify_uses.contains(u))
+							modify_uses.remove(u);
+						
+						modify_uses.add(u);
+					}				
+			}
+		}
 	}
 
-	@Override
-	public void setRelation(Collection<IRelation>  r) {
-		this.relations = r;
-	}
+//	@Override
+//	public void setRelation(IRelation  r) {
+//		this.relations.put(r.getSubClass(), r);
+//	}
 	
 	@Override
 	public Collection<IRelation> getRelations() {
-		return this.relations;
+		return this.relations.values();
 	}
 
 	@Override
@@ -109,15 +118,7 @@ public class Model implements IModel{
 
 	@Override
 	public String toString(){
-<<<<<<< HEAD
 		return "classes: " + this.classes + ";" + "Relation: " + this.relations + "; ";
-=======
-<<<<<<< HEAD
-		return "classes: " + this.classes + ";" + "Relation: " + this.relations + "; ";
-=======
-		return "Declaration: " + this.declaration + "; Field: " + this.field + "; Method: " + this.method + "Components: " + this.components + ";";
->>>>>>> origin/master
->>>>>>> master
 	}
 
 }

@@ -1,30 +1,22 @@
 package TransferToUML.visitor;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> master
 import TransferToUML.api.IRelation;
 import TransferToUML.api.IField;
-=======
-import TransferToUML.api.IDeclaration;
-import TransferToUML.api.IVariable;
->>>>>>> origin/master
 import TransferToUML.api.IMethod;
 import TransferToUML.api.IModel;
 
 public abstract class VisitorAdapter implements IVisitor {
 
 	@Override
-	public void preVisit(IVariable f) {
+	public void preVisit(IField f) {
 	}
 
 	@Override
-	public void visit(IVariable f) {
+	public void visit(IField f) {
 	}
 
 	@Override
-	public void postVisit(IVariable f) {
+	public void postVisit(IField f) {
 	}
 
 	@Override

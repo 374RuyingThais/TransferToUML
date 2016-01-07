@@ -9,7 +9,7 @@ public interface IModel extends ITraverser {
 	public Collection<IClass> getClasses();
 	
 	public void addRelation(IRelation r);	
-	public void setRelation(Collection<IRelation>  r);	
+//	public void setRelation(IRelation r);	
 	public Collection<IRelation> getRelations();
 	
 	public IClass getNamedClass(String s);

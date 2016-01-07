@@ -1,104 +1,67 @@
 package TransferToUML.impl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Stream;
 
-import TransferToUML.api.IClass;
 import TransferToUML.api.IRelation;
-import TransferToUML.visitor.ITraverser;
+
 import TransferToUML.visitor.IVisitor;
 
-@SuppressWarnings("unused")
 public class Relation implements IRelation {
 	
-<<<<<<< HEAD
 	private String subClass;
-=======
->>>>>>> master
 	private String superClass;
-	private String[] interfaces;
-//	private String[] uses;
-//	private String[] associations;
-
-//	private Map<String, String> classToSuperclass = new HashMap<String, String>();
-//	private Map<String, String[]> classToInterface = new HashMap<String, String[]>();
-//	private Map<String, String[]> classToUses = new HashMap<String, String[]>();
-//	private Map<String, String[]> classToAssociations = new HashMap<String, String[]>();
-
-	
-<<<<<<< HEAD
-//	public Relation(String superClass) {
-//		this.superClass = superClass;
-//	}
-//	
-//	public Relation(String[] interfaces){
-//		this.interfaces = interfaces;
-//	}
-//	
-//	public Relation(String superClass, String[] interfaces) {
-//		this.superClass = superClass;
-//		this.interfaces = interfaces;
-//	}
+	private Collection<String> interfaces;
+	private Collection<String> uses;
+	private Collection<String> associations;
 	
 	public Relation(String subName, String superClass) {
 		this.subClass = subName;
 		this.superClass = superClass;
 		this.interfaces = null;
+		this.uses = null;
+		this.associations = null;
 	}
 	
 	public Relation(String subName, String[] interfaces){
 		this.subClass = subName;
 		this.superClass = "";
-		this.interfaces = interfaces;
+		this.interfaces = new ArrayList<String>();
+		for(String s : interfaces){
+			this.interfaces.add(s);
+		}
+		this.uses = null;
+		this.associations = null;
 	}
 	
 	public Relation(String subName, String superClass, String[] interfaces) {
 		this.subClass = subName;
-=======
-	public Relation(String superClass) {
 		this.superClass = superClass;
-	}
-	
-	public Relation(String[] interfaces){
-		this.interfaces = interfaces;
-	}
-	
-	public Relation(String superClass, String[] interfaces) {
->>>>>>> master
-		this.superClass = superClass;
-		this.interfaces = interfaces;
+		this.interfaces = new ArrayList<String>();
+		for(String s : interfaces){
+			this.interfaces.add(s);
+		}
+		this.uses = null;
+		this.associations = null;
 	}
 	
 	@Override
-<<<<<<< HEAD
 	public String getSubClass() {
 		return this.subClass;
 	}
 	
 	@Override
-=======
->>>>>>> master
 	public String getSuperClass() {
 		return this.superClass;
 	}
 
 	@Override
-	public String[] getInterfaces() {
+	public Collection<String> getInterfaces() {
 		return this.interfaces;
 	}
 
-//	@Override
-//	public void addSuperClass(String name, String[] superClassName) {
-//		this.classToSuperclass.put(key, value);
-//	}
-//
-//	@Override
-//	public void addInterfaces() {
-//		this.subclassToInterface.put(name, interfaceName);
-//	}
 
 
 	public void accept(IVisitor v) {
@@ -108,6 +71,58 @@ public class Relation implements IRelation {
 //			t.accept(v);
 //		}
 //		v.postVisit(this);
+	}
+
+	@Override
+	public Collection<String> getUses() {
+		return this.uses;
+	}
+
+	@Override
+	public Collection<String> getAssociations() {
+		return this.associations;
+	}
+
+//	@Override
+//	public void addSuperClass(String superClass) {
+//		
+//	}
+
+	@Override
+	public void addInterfaces(String[] i) {
+
+		for(String s : interfaces){
+			if (!this.interfaces.contains(s))
+				this.interfaces.add(s);
+		}
+	}
+
+	@Override
+	public void addUses(String[] useName) {
+		for(String s : useName){
+			if (!this.uses.contains(s))
+				this.uses.add(s);
+		}
+	}
+
+	@Override
+	public void addUses(String s) {
+		if (!this.uses.contains(s))
+			this.uses.add(s);
+	}
+
+	@Override
+	public void addAssociations(String[] associationsName) {
+		for(String s : associationsName){
+			if (!this.associations.contains(s))
+				this.associations.add(s);
+		}
+	}
+
+	@Override
+	public void addAssociations(String s) {
+		if (!this.associations.contains(s))
+			this.associations.add(s);
 	}
 
 }
