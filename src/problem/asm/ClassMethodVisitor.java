@@ -5,31 +5,46 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class ClassMethodVisitor extends ClassVisitor {
+import TransferToUML.api.IClass;
+import TransferToUML.api.IMethod;
+import TransferToUML.api.IModel;
+import TransferToUML.impl.Method;
+
+
+public class ClassMethodVisitor extends ClassVisitor implements IClassVisitor{
+	
+	private IModel model;
+	private IClass myClass;
+	private ClassVisitor decorated;	
+	
 	public ClassMethodVisitor(int api){
 		super(api);
 	}
 	
-	public ClassMethodVisitor(int api, ClassVisitor decorated) {
+	public ClassMethodVisitor(int api, ClassVisitor decorated, IModel model) {
 		super(api, decorated);
-		// TODO Auto-generated constructor stub
-	}
+		this.model = model;
+		this.myClass = null;
+		this.decorated = decorated;
+	} 
 	
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions){
+		
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
+		IMethod m = new Method(access, name, desc, signature, exceptions);
 		
-		// TODO: delete this line
-		System.out.println("	method " + name);
+		//System.out.println("	method " + name);
 
-		// TODO: create an internal representation of the current method and pass it to the methods below
-		addAccessLevel(access);
-		addReturnType(desc);
-		addArguments(desc);
+		this.myClass = this.getBelongedClass();
 		
-	    // TODO: add the current method to your internal representation of the current class
-		// What is a good way for the code to remember what the current class is?
-
+		IClass namedClass = this.model.getNamedClass(this.myClass.getName());
+		namedClass.addMethod(m);
+		
+//		addAccessLevel(access);
+//		addReturnType(desc);
+//		addArguments(desc);
+		
 		return toDecorate;
 	}
 	
@@ -65,4 +80,12 @@ public class ClassMethodVisitor extends ClassVisitor {
 	    	// TODO: ADD this information to your representation of the current method.
 	    }
 	}
+
+	@Override
+	public IClass getBelongedClass() {
+		if(decorated instanceof IClassVisitor){
+			return ((IClassVisitor) decorated).getBelongedClass();
+		}
+		return this.myClass;
+	};
 }

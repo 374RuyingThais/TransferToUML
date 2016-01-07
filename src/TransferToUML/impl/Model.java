@@ -1,64 +1,83 @@
 package TransferToUML.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import TransferToUML.api.IComponent;
+import TransferToUML.api.IClass;
 import TransferToUML.api.IModel;
+import TransferToUML.api.IRelation;
 import TransferToUML.visitor.ITraverser;
 import TransferToUML.visitor.IVisitor;
 
 
-public class Model implements ITraverser, IModel{
+public class Model implements IModel{
 	
-	public Collection<IComponent> components;
-	public String declaration;
-	public String field;
-	public String method;
+	public Collection<IClass> classes;
+	public Collection<IRelation> relations;
+
 	
-	public Model(String declaration, String field, String method, Collection<IComponent> components) {
-		this.declaration = declaration;
-		this.field = field;
-		this.method = method;
-		this.components = components;
+	public Model(){
+		this.classes = new ArrayList<IClass>();
+		this.relations = new ArrayList<IRelation>();
 	}
 
-	public Model() {
-		// TODO Auto-generated constructor stub
+	public Model(Collection<IClass> classes) {
+		this.classes = classes;
+		this.relations = new ArrayList<IRelation>();
+	}
+	
+	public Model(Collection<IClass> classes, ArrayList<IRelation> relations) {
+		this.classes = classes;
+		this.relations = relations;
 	}
 
-	@Override
 	public void accept(IVisitor v) {
 		v.preVisit(this);
-		for(IComponent p: this.components) {
-			ITraverser t = (ITraverser)p;
-			t.accept(v);
+		for(IClass c: this.classes) {
+			c.accept(v);
 		}
+		v.visit(this);
 		v.postVisit(this);
 	}
 
 	@Override
-	public Collection<IComponent> getComponents() {
-		return this.components;
-	}
-
-	@Override
-	public String getDeclaration() {
-		return this.declaration;
-	}
-
-	@Override
-	public String getField() {
-		return this.field;
-	}
-
-	@Override
-	public String getMethod() {
-		return this.method;
+	public void addClass(IClass c) {
+		this.classes.add(c);
 	}
 	
 	@Override
+	public Collection<IClass> getClasses() {
+		return this.classes;
+	}
+
+	@Override
+	public void addRelation(IRelation r) {
+		this.relations.add(r);
+	}
+
+	@Override
+	public void setRelation(Collection<IRelation>  r) {
+		this.relations = r;
+	}
+	
+	@Override
+	public Collection<IRelation> getRelations() {
+		return this.relations;
+	}
+
+	@Override
+	public IClass getNamedClass(String s) {
+		for(IClass clazz : this.classes){
+			if(clazz.getName().equals(s)){
+				return clazz;
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public String toString(){
-		return "Declaration: " + this.declaration + "; Field: " + this.field + "; Method: " + this.method + "Components: " + this.components + ";";
+		return "classes: " + this.classes + ";" + "Relation: " + this.relations + "; ";
 	}
 
 }

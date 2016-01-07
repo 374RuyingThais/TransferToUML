@@ -4,6 +4,7 @@ import TransferToUML.visitor.ITraverser;
 
 public interface IRelation extends ITraverser{
 	
+	public String getSubClass();
 	public String getSuperClass();
 	public String[] getInterfaces();
 //	public Map<String, String[]> getUses();

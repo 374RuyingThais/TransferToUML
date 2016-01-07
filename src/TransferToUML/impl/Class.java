@@ -17,14 +17,12 @@ public class Class implements IClass{
 	private Collection<IRelation> relations;
 	private String classType;
 	
-	// now only uses this create way
-	public Class() {
-		this.methods = new ArrayList<IMethod>();
-		this.fields = new ArrayList<IField>();
-		this.relations = new ArrayList<IRelation>();
-		this.classType = "normal";
-	}
-	
+//	public Class() {
+//		this.methods = new ArrayList<IMethod>();
+//		this.fields = new ArrayList<IField>();
+//		this.relations = new ArrayList<IRelation>();
+//		this.classType = "normal";
+//	}
 	
 	//Unused
 	public Class(String name) {
@@ -54,7 +52,7 @@ public class Class implements IClass{
 		}
 		
 		if(!this.fields.isEmpty()){
-			v.visit(this);
+			v.visitSperator();
 		}
 		
 		for(IMethod m : this.methods){
@@ -83,10 +81,10 @@ public class Class implements IClass{
 		return this.relations;
 	}
 	
-	@Override
-	public void addName(String s) {
-		this.name = s;
-	}
+//	@Override
+//	public void addName(String s) {
+//		this.name = s;
+//	}
 
 	@Override
 	public void addMethod(IMethod m) {
@@ -109,9 +107,9 @@ public class Class implements IClass{
 	}
 
 
-	@Override
-	public void setClassType(String s) {
-		this.classType = s;
-	}
+//	@Override
+//	public void setClassType(String s) {
+//		this.classType = s;
+//	}
 
 }

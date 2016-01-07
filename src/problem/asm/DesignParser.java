@@ -11,12 +11,12 @@ import TransferToUML.impl.Model;
 
 public class DesignParser {
 	
-	public static final String[] CLASSES= {
-			"problem.asm.Animal"
-		};
+//	public static final String[] CLASSES= {
+//			"test.animal.animal"
+//		};
 	
-	private IModel model = new Model();
-	
+	public IModel model = new Model();
+
 	/**
 	 * Reads in a list of Java Classes and reverse engineers their design.
 	 * 
@@ -28,16 +28,16 @@ public class DesignParser {
 		
 		for(String className: args){
 			// ASM's ClassReader does the heavy lifting of parsing the compiled Java class
-			ClassReader reader = new ClassReader(className);
+			ClassReader reader=new ClassReader(className);
 			
 			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5);
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, model);
 			
 			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, model);
 			
 			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, model);
 
 			// TODO: add more DECORATORS here in later milestones to accomplish specific tasks
 			// specific tasks
@@ -46,7 +46,7 @@ public class DesignParser {
 			
 			
 			// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
-			reader.accept(methodVisitor, ClassReader.SKIP_CODE);
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 		}
 	}
 }
