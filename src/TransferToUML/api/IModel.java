@@ -2,9 +2,17 @@ package TransferToUML.api;
 
 import java.util.Collection;
 
-public interface IModel {
-	public Collection<IComponent> getComponents();
-	public String getDeclaration();
-	public String getField();
-	public String getMethod();
+import TransferToUML.visitor.ITraverser;
+
+public interface IModel extends ITraverser {
+	public void addClass(IClass c);
+	public Collection<IClass> getClasses();
+	
+	public void addRelation(IRelation r);	
+	public void setRelation(Collection<IRelation>  r);	
+	public Collection<IRelation> getRelations();
+	
+	public IClass getNamedClass(String s);
+	
+
 }

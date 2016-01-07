@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import TransferToUML.api.IRelation;
-import TransferToUML.api.IClass;
-import TransferToUML.api.IField;
+import TransferToUML.api.IDeclaration;
+import TransferToUML.api.IVariable;
 import TransferToUML.api.IMethod;
 import TransferToUML.api.IModel;
 import TransferToUML.visitor.VisitorAdapter;
@@ -19,48 +18,20 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 	private final OutputStream out;
 
 	public UMLTransferOutputStream(OutputStream out) throws IOException {
-		super();
 		this.out = out;
 	}
 
-	private void write(String s) {
+	@SuppressWarnings("unused")
+	private void write(String m) {
 		try {
-			this.out.write(s.getBytes());
+			this.out.write(m.getBytes());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	@Override
-	public void preVisit(IClass c) {
-		String s = String.format("%s [\nshape=\"record\",\n", c.getName());
-		this.write(s);
-	}
 
 	@Override
-	public void visit(IClass c) {
-		String s;
-		if(c.getClassType() == "Interface"){
-			s = String.format("label = \"{\\<\\<interface\\>\\>\\n%s| ", c.getName());
-			} else {
-				if(c.getClassType() == "Abstract"){
-					s = String.format("label = \"{\\<\\<Abstract\\>\\>\\n%s| ", c.getName());
-				} else {
-					s = String.format("label = \"{%s| ", c.getName());
-				}
-			}
-		this.write(s);
-	}
-
-	@Override
-	public void postVisit(IClass c) {
-		String s = "}\"\n];\n\n";
-		this.write(s);
-	}
-	
-
-	@Override
-	public void visit(IField f) {
+	public void visit(IVariable f) {
 		String type = Type.getType(f.getDescription()).getClassName();
 		addAccessLevel(f.getAccess());
 		addColon(f.getName());
@@ -76,111 +47,33 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 		addReturnType(m.getDescription());
 		System.out.print("\\l");
 	}
-	
-	// not draw the relation after every class but draw them all together after draw classes
-	
+
 	@Override
-	public void visit(IModel m) {
-		ArrayList<IRelation> relations = (ArrayList<IRelation>) m.getRelations();
-
-		String comment = "//begins writing relations";
-		this.write(comment);
-
-//		for (IRelation r : relations) {
-//			this.visitSuperClasses(r);
-//		}
-//
-//		for (IRelation r : relations) {
-//			this.visitInterfaces(r);
-//		}
-		
-		for (IRelation r : relations) {
-			String s = "";
-			
-			String n = r.getSubClass();
-			String[] superClass = r.getSuperClass().split("/");
-			if (r.getSuperClass() != "")
-				s += "\n" + n + " -> " + superClass[superClass.length - 1] + " [arrowhead=\"onormal\"];";
-			
-			ArrayList<String[]> interfaces = new ArrayList<String[]>();
-			if (r.getInterfaces() != null) {
-				for (String i : r.getInterfaces()) {
-					interfaces.add(i.split("/"));
-				}
-			
-				for (String[] i : interfaces) {
-					s += "\n" + n + " -> " + i[i.length - 1] + " [arrowhead=\"onormal\", style=\"dashed\"];";
-				}
-			}	
-			
-			if (s != "") {
-				this.write(s);
-			}
-		}
-		
+	public void preVisit(IDeclaration c) {
+		String[] namet = c.getName().split("/");
+		System.out.println(namet[namet.length - 1] + "[");
+		System.out.println("shape=\"record\",");
+		System.out.print("label = \"{" + namet[namet.length - 1] + "|");
 	}
-	
-//	@Override
-//	public void visitSuperClasses(IRelation r) {
-//		String s = "";
-//
-////		Set<String> keys = r.getSuperClasses().keySet();
-////		for (String k : keys) {
-////			String superClass = r.getSuperClasses().get(k);
-////			String[] superSplit = superClass.split("/");
-////			superClass = superSplit[superSplit.length - 1];
-////			s += "\n" + k + " -> " + superClass;
-////			s += " [arrowhead = \"empty\"];";
-////		}
-//		
-//		String n = r.getSubClass();
-//		String[] superClass = r.getSuperClass().split("/");
-//		s += "\n" + n + " -> " + superClass[superClass.length - 1] + " [arrowhead=\"onormal\"];";
-//
-//		if (s != "") {
-//			this.write(s);
-//		}
-//	}
-//	
-//	@Override
-//	public void visitInterfaces(IRelation r) {
-//		String s = "";
-////		Set<String> keys = r.getInterfaces().keySet();
-////		for (String k : keys) {
-////			if (r.getInterfaces().get(k).length > 0) {
-////				String superClass = r.getInterfaces().get(k)[0];
-////				String[] superSplit = superClass.split("/");
-////				superClass = superSplit[superSplit.length - 1];
-////				s += "\n" + k + " -> " + superClass;
-////
-////				for (int i = 1; i < r.getInterfaces().get(k).length; i++) {
-////					String interfaceName = r.getInterfaces().get(k)[i];
-////					String[] interfaceSplit = interfaceName.split("/");
-////					interfaceName = interfaceSplit[interfaceSplit.length - 1];
-////					s += ", " + interfaceName;
-////				}
-////				s += " [arrowhead = \"empty\", style = \"dashed\"];";
-////			}
-////		}
-//		
-//		ArrayList<String[]> interfaces = new ArrayList<String[]>();
-//		for (String i : r.getInterfaces()) {
-//			interfaces.add(i.split("/"));
-//		}
-//		
-//		String n = r.getSubClass();
-//		for (String[] i : interfaces) {
-//			s += "\n" + n + " -> " + i[i.length - 1] + " [arrowhead=\"onormal\", style=\"dashed\"];";
-//		}
-//		
-//		if (s != "") {
-//			this.write(s);
-//		}
-//	}
 
 	@Override
-	public void postVisit(IRelation r) {
-		super.postVisit(r);
+	public void postVisit(IDeclaration c) {
+		String[] namet = c.getName().split("/");
+		String[] superNamet = c.getSuperClass().split("/");
+		ArrayList<String[]> interfacest = new ArrayList<String[]>();
+		for (String i : c.getInterfaces()) {
+			interfacest.add(i.split("/"));
+		}
+
+		System.out.println("}\"");
+		System.out.println("];");
+		System.out.println(
+				namet[namet.length - 1] + " -> " + superNamet[superNamet.length - 1] + " [arrowhead=\"onormal\"];");
+		for (String[] i : interfacest) {
+			String inter = i[i.length - 1];
+			System.out
+					.println(namet[namet.length - 1] + " -> " + inter + " [arrowhead=\"onormal\", style=\"dashed\"];");
+		}
 	}
 
 	void addAccessLevel(int access) {
@@ -219,12 +112,21 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 		System.out.print(name + " : ");
 	}
 
-
-	
 	@Override
-	public void visitSperator(){
-		String s = "|";
-		this.write(s);
+	public void preVisit(IModel c) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void visit(IModel c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postVisit(IModel c) {
+		// TODO Auto-generated method stub
+		
+	}
 }

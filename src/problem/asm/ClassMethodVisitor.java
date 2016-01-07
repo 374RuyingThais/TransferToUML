@@ -5,6 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+<<<<<<< HEAD
 import TransferToUML.api.IClass;
 import TransferToUML.api.IMethod;
 import TransferToUML.api.IModel;
@@ -17,6 +18,11 @@ public class ClassMethodVisitor extends ClassVisitor implements IClassVisitor{
 	private IClass myClass;
 	private ClassVisitor decorated;	
 	
+=======
+import TransferToUML.api.IModel;
+
+public class ClassMethodVisitor extends ClassVisitor {
+>>>>>>> master
 	public ClassMethodVisitor(int api){
 		super(api);
 	}

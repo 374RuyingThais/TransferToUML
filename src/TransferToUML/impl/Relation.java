@@ -14,7 +14,10 @@ import TransferToUML.visitor.IVisitor;
 @SuppressWarnings("unused")
 public class Relation implements IRelation {
 	
+<<<<<<< HEAD
 	private String subClass;
+=======
+>>>>>>> master
 	private String superClass;
 	private String[] interfaces;
 //	private String[] uses;
@@ -26,6 +29,7 @@ public class Relation implements IRelation {
 //	private Map<String, String[]> classToAssociations = new HashMap<String, String[]>();
 
 	
+<<<<<<< HEAD
 //	public Relation(String superClass) {
 //		this.superClass = superClass;
 //	}
@@ -53,16 +57,30 @@ public class Relation implements IRelation {
 	
 	public Relation(String subName, String superClass, String[] interfaces) {
 		this.subClass = subName;
+=======
+	public Relation(String superClass) {
+		this.superClass = superClass;
+	}
+	
+	public Relation(String[] interfaces){
+		this.interfaces = interfaces;
+	}
+	
+	public Relation(String superClass, String[] interfaces) {
+>>>>>>> master
 		this.superClass = superClass;
 		this.interfaces = interfaces;
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public String getSubClass() {
 		return this.subClass;
 	}
 	
 	@Override
+=======
+>>>>>>> master
 	public String getSuperClass() {
 		return this.superClass;
 	}

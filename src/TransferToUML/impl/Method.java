@@ -4,7 +4,7 @@ import TransferToUML.api.IMethod;
 import TransferToUML.visitor.ITraverser;
 import TransferToUML.visitor.IVisitor;
 
-public class Method implements IMethod, ITraverser {
+public class Method implements IMethod {
 	private int access;
 	private String name;
 	private String description;
@@ -44,7 +44,7 @@ public class Method implements IMethod, ITraverser {
 		return this.exceptions;
 	}
 
-	@Override
+
 	public void accept(IVisitor v) {
 		v.preVisit(this);
 		v.visit(this);
