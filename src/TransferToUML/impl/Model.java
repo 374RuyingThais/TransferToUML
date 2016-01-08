@@ -17,7 +17,7 @@ public class Model implements IModel{
 	
 	public Collection<IClass> classes;
 	public Map<String, IRelation> relations;
-	public Collection<String> classNames;
+	public Collection<String> classNames = new ArrayList<String>();
 
 	
 	public Model(){
@@ -103,7 +103,14 @@ public class Model implements IModel{
 	
 	@Override
 	public Collection<IRelation> getRelations() {
-		return this.relations.values();
+		
+		Collection<IRelation> allRelation = new ArrayList<IRelation>();
+		
+		for (String key: this.relations.keySet()) {
+			allRelation.add(this.relations.get(key));
+		}
+		
+		return allRelation;
 	}
 
 	@Override

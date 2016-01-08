@@ -11,11 +11,12 @@ import TransferToUML.impl.Model;
 
 public class DesignParser {
 	
-//	public static final String[] CLASSES= {
-//			"test.animal.animal"
-//		};
+	public IModel model;
+
 	
-	public IModel model = new Model();
+	public DesignParser() {
+		this.model = new Model();
+	}
 
 	/**
 	 * Reads in a list of Java Classes and reverse engineers their design.

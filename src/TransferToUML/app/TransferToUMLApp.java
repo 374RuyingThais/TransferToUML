@@ -12,9 +12,9 @@ import problem.asm.DesignParser;
 public class TransferToUMLApp {
 	
 	public static String[] classes = {
-			"TransferToUML.app.Animal",
-			"TransferToUML.app.AbstrctCat",
-			"TransferToUML.app.Bonbay"
+			"JavaCodeToUMLCode.test.animal.Animal",
+			"JavaCodeToUMLCode.test.animal.AbstractCat",
+			"JavaCodeToUMLCode.test.animal.BombayCat"
 	};
 			
 			// "headfirst.observer.weather.CurrentConditionsDisplay",
@@ -37,10 +37,11 @@ public class TransferToUMLApp {
 		OutputStream out = new FileOutputStream("./input_output/UML.txt");
 		IVisitor writer = new UMLTransferOutputStream(out);
 		ITraverser traverser = (ITraverser) parser.model;
+		
 		String title = "example";
 		out.write("digraph ".getBytes());
 		out.write(title.getBytes());
-		out.write(" { rankdir=BT;".getBytes());
+		out.write(" { \nrankdir=BT;\n".getBytes());
 		traverser.accept(writer);
 		out.write("}".getBytes());
 		out.close();

@@ -1,9 +1,7 @@
 package TransferToUML.impl;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 import TransferToUML.api.IRelation;
 
@@ -17,12 +15,20 @@ public class Relation implements IRelation {
 	private Collection<String> uses;
 	private Collection<String> associations;
 	
+	public Relation(String subName) {
+		this.subClass = subName;
+		this.superClass = "";
+		this.interfaces = new ArrayList<String>();
+		this.uses = new ArrayList<String>();
+		this.associations = new ArrayList<String>();
+	}
+	
 	public Relation(String subName, String superClass) {
 		this.subClass = subName;
 		this.superClass = superClass;
-		this.interfaces = null;
-		this.uses = null;
-		this.associations = null;
+		this.interfaces = new ArrayList<String>();
+		this.uses = new ArrayList<String>();
+		this.associations = new ArrayList<String>();
 	}
 	
 	public Relation(String subName, String[] interfaces){
@@ -32,8 +38,8 @@ public class Relation implements IRelation {
 		for(String s : interfaces){
 			this.interfaces.add(s);
 		}
-		this.uses = null;
-		this.associations = null;
+		this.uses = new ArrayList<String>();
+		this.associations = new ArrayList<String>();
 	}
 	
 	public Relation(String subName, String superClass, String[] interfaces) {
@@ -43,8 +49,8 @@ public class Relation implements IRelation {
 		for(String s : interfaces){
 			this.interfaces.add(s);
 		}
-		this.uses = null;
-		this.associations = null;
+		this.uses = new ArrayList<String>();
+		this.associations = new ArrayList<String>();
 	}
 	
 	@Override
