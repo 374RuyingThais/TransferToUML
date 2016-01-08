@@ -7,7 +7,7 @@ label = "{CurrentConditionsDisplay| - temperature : float\l- humidity : float\l-
 
 DisplayElement [
 shape="record",
-label = "{\<\<interface\>\>\nDisplayElement|   <clinit>() : void\l+ display() : void\l}"
+label = "{\<\<interface\>\>\nDisplayElement| + display() : void\l}"
 ];
 
 ForecastDisplay [
@@ -22,7 +22,7 @@ label = "{HeatIndexDisplay|   heatIndex : float\l- weatherData : WeatherData\l|+
 
 Observer [
 shape="record",
-label = "{\<\<interface\>\>\nObserver|   <clinit>() : void\l+ update(float , float) : void\l}"
+label = "{\<\<interface\>\>\nObserver| + update(float , float) : void\l}"
 ];
 
 StatisticsDisplay [
@@ -32,7 +32,7 @@ label = "{StatisticsDisplay| - maxTemp : float\l- minTemp : float\l- tempSum : f
 
 Subject [
 shape="record",
-label = "{\<\<interface\>\>\nSubject|   <clinit>() : void\l+ registerObserver(Observer ) : void\l+ removeObserver(Observer ) : void\l+ notifyObservers() : void\l}"
+label = "{\<\<interface\>\>\nSubject| + registerObserver(Observer ) : void\l+ removeObserver(Observer ) : void\l+ notifyObservers() : void\l}"
 ];
 
 WeatherData [
@@ -51,6 +51,15 @@ label = "{WeatherStationHeatIndex| + main(String[] ) : void\l}"
 ];
 
 //begins writing relations
+WeatherStationHeatIndex -> WeatherData [arrowhead = "vee"];
+WeatherStationHeatIndex -> CurrentConditionsDisplay [arrowhead = "vee"];
+WeatherStationHeatIndex -> StatisticsDisplay [arrowhead = "vee"];
+WeatherStationHeatIndex -> ForecastDisplay [arrowhead = "vee"];
+WeatherStationHeatIndex -> HeatIndexDisplay [arrowhead = "vee"];
+WeatherStation -> WeatherData [arrowhead = "vee"];
+WeatherStation -> CurrentConditionsDisplay [arrowhead = "vee"];
+WeatherStation -> StatisticsDisplay [arrowhead = "vee"];
+WeatherStation -> ForecastDisplay [arrowhead = "vee"];
 CurrentConditionsDisplay -> Observer [arrowhead="onormal", style="dashed"];
 CurrentConditionsDisplay -> DisplayElement [arrowhead="onormal", style="dashed"];
 ForecastDisplay -> Observer [arrowhead="onormal", style="dashed"];
@@ -59,4 +68,5 @@ HeatIndexDisplay -> Observer [arrowhead="onormal", style="dashed"];
 HeatIndexDisplay -> DisplayElement [arrowhead="onormal", style="dashed"];
 StatisticsDisplay -> Observer [arrowhead="onormal", style="dashed"];
 StatisticsDisplay -> DisplayElement [arrowhead="onormal", style="dashed"];
-WeatherData -> Subject [arrowhead="onormal", style="dashed"];}
+WeatherData -> Subject [arrowhead="onormal", style="dashed"];
+WeatherData -> Observer [arrowhead = "vee"];}

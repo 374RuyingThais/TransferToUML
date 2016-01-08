@@ -88,8 +88,8 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 	public void visit(IModel m) {
 		ArrayList<IRelation> relations = (ArrayList<IRelation>) m.getRelations();
 
-		String comment = "//begins writing relations";
-		this.write(comment);
+//		String comment = "//begins writing relations";
+//		this.write(comment);
 
 		// for (IRelation r : relations) {
 		// this.visitSuperClasses(r);

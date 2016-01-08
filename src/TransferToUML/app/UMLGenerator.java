@@ -16,8 +16,8 @@ public class UMLGenerator {
 
 	public void execute() {
 		try {
-			String f = new File("\\EclipseWorkspaces\\csse374\\JavaCodeToUMLCode\\test\\UML.dot").getAbsoluteFile().getPath();
-			String y = "\\EclipseWorkspaces\\csse374\\JavaCodeToUMLCode\\test\\" + this.fileName + ".png";
+			String f = new File(".\\test\\UML.txt").getAbsoluteFile().getPath();
+			String y = ".\\test\\" + this.fileName + ".png";
 			String z = new File(y).getAbsoluteFile().getPath();
 			String path = "\"C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot\" -Tpng " + "\"" + f + "\"";
 			Process p = Runtime.getRuntime().exec(path);

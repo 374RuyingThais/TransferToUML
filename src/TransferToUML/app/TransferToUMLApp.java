@@ -10,34 +10,23 @@ import TransferToUML.visitor.IVisitor;
 import problem.asm.DesignParser;
 
 public class TransferToUMLApp {
-	
+		
 	public static String[] classes = {
-			"TransferToUML.app.Animal",
-			"TransferToUML.app.AbstractCat",
-			"TransferToUML.app.BombayCat"
-			
-		//	"JavaCodeToUMLCode.test.animal.AbstractCat",
-		//	"JavaCodeToUMLCode.test.animal.BombayCat"
+			"analyze.AbstractClassTwoAbstractMethods",
+			"analyze.ClassPrivate",
+			"analyze.ClassUsesClass",
+			"analyze.ClassWithJustMainMethod",
+			"analyze.ClassWithOneVariable",
+			"analyze.Interface",
+			"analyze.ProtectedClass"
 	};
-			
-			// "headfirst.observer.weather.CurrentConditionsDisplay",
-			// "headfirst.observer.weather.DisplayElement",
-			// "headfirst.observer.weather.ForecastDisplay",
-			// "headfirst.observer.weather.HeatIndexDisplay",
-			// "headfirst.observer.weather.Observer",
-			// "headfirst.observer.weather.StatisticsDisplay",
-			// "headfirst.observer.weather.Subject",
-			// "headfirst.observer.weather.WeatherData",
-			// "headfirst.observer.weather.WeatherStation",
-			// "headfirst.observer.weather.WeatherStationHeatIndex"
-//	};
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {	
 		
 		DesignParser parser = new DesignParser();
 		
 		parser.main(classes);
-		OutputStream out = new FileOutputStream("./input_output/UML.dot");
+		OutputStream out = new FileOutputStream("./input_output/TempUML.dot");
 		IVisitor writer = new UMLTransferOutputStream(out);
 		ITraverser traverser = (ITraverser) parser.model;
 		
