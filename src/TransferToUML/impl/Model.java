@@ -17,34 +17,33 @@ public class Model implements IModel{
 	
 	public Collection<IClass> classes;
 	public Map<String, IRelation> relations;
-	public Collection<String> classNames = new ArrayList<String>();
-
+//	public Collection<String> classNames = new ArrayList<String>();
 	
 	public Model(){
 		this.classes = new ArrayList<IClass>();
 		this.relations = new HashMap<String,IRelation>();
-		setClassNames();
+//		setClassNames();
 	}
 
 	public Model(Collection<IClass> classes) {
 		this.classes = classes;
 		this.relations = new HashMap<String,IRelation>();
-		setClassNames();
+//		setClassNames();
 	}
 	
 	public Model(Collection<IClass> classes, HashMap<String,IRelation> relations) {
 		this.classes = classes;
 		this.relations = relations;
-		setClassNames();
+//		setClassNames();
 	}
 	
-	public void setClassNames(){
-		for (String s : TransferToUMLApp.classes) {
-			String[] split = s.split("\\.");
-			s = split[split.length-1];
-			this.classNames.add(s);
-		}
-	}
+//	public void setClassNames(){
+//		for (String s : TransferToUMLApp.classes) {
+//			String[] split = s.split("\\.");
+//			s = split[split.length-1];
+//			this.classNames.add(s);
+//		}
+//	}
 
 	public void accept(IVisitor v) {
 		v.preVisit(this);
@@ -70,8 +69,8 @@ public class Model implements IModel{
 		
 		if (!this.relations.containsKey(r.getSubClass())) {
 			this.relations.put(r.getSubClass(), r);
-		} else {
-			
+		
+		} else {		
 
 			IRelation modify = this.relations.get(r.getSubClass());
 			Collection<String> modify_uses = modify.getUses();
@@ -79,18 +78,19 @@ public class Model implements IModel{
 			
 			if(!r.getUses().isEmpty()) {
 				for(String u : r.getUses()) 
-					if (!modify_uses.contains(u) && !modify_ass.contains(u) && this.classNames.contains(u)) {
+					//if (!modify_uses.contains(u) && !modify_ass.contains(u) && this.classNames.contains(u)) {
+					if (!modify_uses.contains(u) && !modify_ass.contains(u)) {
 						modify_uses.add(u);
 					}				
 			}
 			
 			if(!r.getAssociations().isEmpty()) {
 				for(String u : r.getAssociations()) 
-					if (!modify_ass.contains(u) && this.classNames.contains(u)) {
+					//if (!modify_ass.contains(u) && this.classNames.contains(u)) {
+					if (!modify_ass.contains(u)) {
 						if (modify_uses.contains(u))
 							modify_uses.remove(u);
-						
-						modify_uses.add(u);
+						modify_ass.add(u);
 					}				
 			}
 		}
