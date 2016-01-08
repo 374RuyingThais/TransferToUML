@@ -28,11 +28,13 @@ public class Relation implements IRelation {
 	
 	public Relation(String subName, String superClass) {
 		this.subClass = subName;
-		this.superClass = superClass;
+		setClassNames();
+		//System.out.println(superClass + " " + this.classNames.contains(getPureName(superClass)) + " " + getPureName(superClass));
+		if (this.classNames.contains(getPureName(superClass)))
+			this.superClass = superClass;
 		this.interfaces = new ArrayList<String>();
 		this.uses = new ArrayList<String>();
 		this.associations = new ArrayList<String>();
-		setClassNames();
 	}
 	
 	public Relation(String subName, String[] interfaces){
@@ -41,7 +43,7 @@ public class Relation implements IRelation {
 		this.interfaces = new ArrayList<String>();
 		setClassNames();
 		for(String s : interfaces){
-			if (this.classNames.contains(s))
+			if (this.classNames.contains(getPureName(s)))
 				this.interfaces.add(s);
 		}
 		this.uses = new ArrayList<String>();
@@ -50,21 +52,29 @@ public class Relation implements IRelation {
 	
 	public Relation(String subName, String superClass, String[] interfaces) {
 		this.subClass = subName;
-		this.superClass = superClass;
-		this.interfaces = new ArrayList<String>();
 		setClassNames();
+		//System.out.println(superClass + " " + this.classNames.contains(getPureName(superClass))+ " |" + getPureName(superClass)+"|");
+		if (this.classNames.contains(getPureName(superClass)))
+			this.superClass = superClass;
+		this.interfaces = new ArrayList<String>();
 		for(String s : interfaces){
-			if (this.classNames.contains(s))
+			if (this.classNames.contains(getPureName(s)))
 				this.interfaces.add(s);
 		}
 		this.uses = new ArrayList<String>();
 		this.associations = new ArrayList<String>();
 	}
 	
+	public String getPureName(String s){
+		String[] split = s.split("/");
+		return split[split.length-1];
+	}
+	
 	public void setClassNames(){
 		for (String s : TransferToUMLApp.classes) {
 			String[] split = s.split("\\.");
 			s = split[split.length-1];
+			//System.out.println("set |" + s + "|");
 			this.classNames.add(s);
 		}
 	}
@@ -114,7 +124,7 @@ public class Relation implements IRelation {
 	public void addInterfaces(String[] i) {
 
 		for(String s : interfaces){
-			if (!this.interfaces.contains(s) && this.classNames.contains(s))
+			if (!this.interfaces.contains(s) && this.classNames.contains(getPureName(s)))
 				this.interfaces.add(s);
 		}
 	}
@@ -122,28 +132,28 @@ public class Relation implements IRelation {
 	@Override
 	public void addUses(String[] useName) {
 		for(String s : useName){
-			if (!this.uses.contains(s) && this.classNames.contains(s))
+			if (!this.uses.contains(s) && this.classNames.contains(getPureName(s)))
 				this.uses.add(s);
 		}
 	}
 
 	@Override
 	public void addUses(String s) {
-		if (!this.uses.contains(s) && this.classNames.contains(s))
+		if (!this.uses.contains(s) && this.classNames.contains(getPureName(s)))
 			this.uses.add(s);
 	}
 
 	@Override
 	public void addAssociations(String[] associationsName) {
 		for(String s : associationsName){
-			if (!this.associations.contains(s) && this.classNames.contains(s))
+			if (!this.associations.contains(s) && this.classNames.contains(getPureName(s)))
 				this.associations.add(s);
 		}
 	}
 
 	@Override
 	public void addAssociations(String s) {
-		if (!this.associations.contains(s) && this.classNames.contains(s))
+		if (!this.associations.contains(s) && this.classNames.contains(getPureName(s)))
 			this.associations.add(s);
 	}
 

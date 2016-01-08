@@ -103,9 +103,11 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 			String s = "";
 
 			String n = r.getSubClass();
-			String[] superClass = r.getSuperClass().split("/");
-			if (r.getSuperClass() != "")
+			//System.out.println(r.getSuperClass());
+			if (r.getSuperClass() != null) {
+				String[] superClass = r.getSuperClass().split("/");
 				s += "\n" + n + " -> " + superClass[superClass.length - 1] + " [arrowhead=\"onormal\"];";
+			}
 
 			ArrayList<String[]> interfaces = new ArrayList<String[]>();
 			if (r.getInterfaces() != null) {
@@ -178,11 +180,13 @@ public class UMLTransferOutputStream extends VisitorAdapter {
 	void addArguments(String desc) {
 		Type[] args = Type.getArgumentTypes(desc);
 
-		String[] typeSplit = args[0].getClassName().split("\\.");
-		this.write(typeSplit[typeSplit.length - 1] + " ");
-		for (int i=1; i<args.length-1; i++) {
-			typeSplit = args[i].getClassName().split("\\.");
-			this.write(", " + typeSplit[typeSplit.length - 1]);
+		if (args.length > 0) {
+			String[] typeSplit = args[0].getClassName().split("\\.");
+			this.write(typeSplit[typeSplit.length - 1] + " ");
+			for (int i = 1; i < args.length - 1; i++) {
+				typeSplit = args[i].getClassName().split("\\.");
+				this.write(", " + typeSplit[typeSplit.length - 1]);
+			}
 		}
 
 	}

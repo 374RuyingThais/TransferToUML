@@ -102,7 +102,8 @@ public class ClassMethodVisitor extends ClassVisitor implements IClassVisitor {
 			String[] typeSplit = args[i].getClassName().split("\\.");
 			result += typeSplit[typeSplit.length - 1] + ",";
 		}
-		result = result.substring(0, result.length()-2);
+		if(result != "")
+			result = result.substring(0, result.length()-2);
 		return result;
 	}
 

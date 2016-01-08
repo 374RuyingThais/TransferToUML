@@ -17,5 +17,4 @@ label = "{BombayCat| - callingName : String\l|- setCallingName(String ) : void\l
 
 //begins writing relations
 BombayCat -> AbstractCat [arrowhead="onormal"];
-Animal -> Object [arrowhead="onormal"];
-AbstractCat -> Object [arrowhead="onormal"];}
+AbstractCat -> Animal [arrowhead="onormal", style="dashed"];}

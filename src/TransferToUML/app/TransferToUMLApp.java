@@ -12,9 +12,12 @@ import problem.asm.DesignParser;
 public class TransferToUMLApp {
 	
 	public static String[] classes = {
-			"JavaCodeToUMLCode.test.animal.Animal",
-			"JavaCodeToUMLCode.test.animal.AbstractCat",
-			"JavaCodeToUMLCode.test.animal.BombayCat"
+			"TransferToUML.app.Animal",
+			"TransferToUML.app.AbstractCat",
+			"TransferToUML.app.BombayCat"
+			
+		//	"JavaCodeToUMLCode.test.animal.AbstractCat",
+		//	"JavaCodeToUMLCode.test.animal.BombayCat"
 	};
 			
 			// "headfirst.observer.weather.CurrentConditionsDisplay",
@@ -34,7 +37,7 @@ public class TransferToUMLApp {
 		DesignParser parser = new DesignParser();
 		
 		parser.main(classes);
-		OutputStream out = new FileOutputStream("./input_output/UML.txt");
+		OutputStream out = new FileOutputStream("./input_output/UML.dot");
 		IVisitor writer = new UMLTransferOutputStream(out);
 		ITraverser traverser = (ITraverser) parser.model;
 		
