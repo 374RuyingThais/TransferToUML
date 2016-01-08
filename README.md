@@ -3,11 +3,36 @@
 Design of the code
 --
 
+<problem.asm>
+IClassVistor : for getting the Class that visted Method/Field belongs
+ClassMethodVisitor : add function to figure out uses
+MethodVisitorHelper : help figuring out associations and uses, been use in ClassMethodVisitor.
+
+<TransferToUML.app>
+TransferToUMLApp : starting file
+ReadFilesFromAnalyze : help reading files
+UMLGenerator : generate code in txt and create the UML graph by dot.
+
+<TransferToUML.api & impl>
+IClass Class
+IField Field
+IMethod Method
+IRelation Relation
+
+IModel Model  
+
+UMLTransferOutputStream : visit classes, fields and methods and get infomation then delicate them into code for UML. Also our ideal is to draw the relation arrows together form model at the end.
+
+
+Ideal we improved
+--
+
+
 
 Who did what
 --
 Ruying did all the programming and for both Milestone 1 and 2.
-Thais generated the UML diagrams for the application.
+Thais generated the UML test and diagrams for the application.
 
 Instructions
 --
